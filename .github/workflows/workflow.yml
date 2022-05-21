@@ -30,5 +30,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
           
-      - name: Deploy static site to s3 bucket
       - run: aws s3 sync ./build s3//githu-to-s3
