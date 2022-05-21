@@ -23,12 +23,12 @@ jobs:
       - name: Build static file
         run: npm run build
 
-      - name: Deploy files
-      - uses: jakejarvis/s3-sync-action@master
+      - name: Configure AWS Credentials
+      - uses: aws-actions/configure-aws-credentials@v1
         with:
-          args: --acl public-read --exclude '.git/*' --exclude '.github/*' --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: 'build'      # optional: defaults to entire repository
+          aws-region: us-east-1
+          
+      - name: Deploy static site to s3 bucket
+        run: aws s3 sync ./build s3//githu-to-s3
